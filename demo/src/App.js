@@ -54,6 +54,11 @@ class extendDrawBar {
 
 function App() {
   const [isActive, setIsActive] = useState(false);
+  let mapRef = useRef(null);
+
+  const openMenu = () => {
+    setIsActive(true);
+  };
 
   if (mapboxGl.getRTLTextPluginStatus() === 'unavailable')
     mapboxGl.setRTLTextPlugin(
@@ -63,7 +68,6 @@ function App() {
       },
       true
     );
-  let mapRef = useRef(null);
 
   useEffect(() => {
     map = new mapboxGl.Map({
@@ -132,11 +136,6 @@ function App() {
     });
   }, []);
 
-  const openMenu = () => {
-    setIsActive(!isActive);
-    console.log('openMenu -> isActive', isActive);
-  };
-
   const splitLine = (mode) => {
     try {
       draw?.changeMode('splitLineMode', { spliter: mode });
@@ -148,20 +147,31 @@ function App() {
   return (
     <div className="map-wrapper">
       <div id="map" ref={mapRef} />
-      <div className={isActive ? 'split show' : 'split'}>
-        <button
-          className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_line"
-          onClick={() => splitLine('LINE_STRING')}
-        />
-        <button
-          className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_point"
-          onClick={() => splitLine('POINT')}
-        />
-        <button
-          className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_polygon"
-          onClick={() => splitLine('POLYGON')}
-        />
-      </div>
+      {isActive ? (
+        <div className={`mapboxgl-ctrl-group mapboxgl-ctrl split`}>
+          <button
+            className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_line"
+            onClick={() => {
+              splitLine('LINE_STRING');
+              setIsActive(false);
+            }}
+          />
+          <button
+            className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_point"
+            onClick={() => {
+              splitLine('POINT');
+              setIsActive(false);
+            }}
+          />
+          <button
+            className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_polygon"
+            onClick={() => {
+              splitLine('POLYGON');
+              setIsActive(false);
+            }}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }
