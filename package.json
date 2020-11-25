@@ -1,8 +1,9 @@
 {
   "name": "mapbox-gl-draw-split-line-mode",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A custom mode for MapboxGL Draw to split lines",
   "main": "dist/index.js",
+  "module": "src/index.js",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w"
@@ -24,7 +25,8 @@
   },
   "homepage": "https://github.com/ReyhaneMasumi/mapbox-gl-draw-split-line-mode#readme",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "devDependencies": {
     "@rollup/plugin-commonjs": "11.0.2",
