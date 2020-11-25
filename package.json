@@ -1,6 +1,6 @@
 {
   "name": "mapbox-gl-draw-split-line-mode",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A custom mode for MapboxGL Draw to split lines",
   "main": "dist/mapbox-gl-draw-split-line-mode.cjs.js",
   "scripts": {
