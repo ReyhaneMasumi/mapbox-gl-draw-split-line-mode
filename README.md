@@ -6,12 +6,17 @@
 
 A custom mode for [MapboxGL-Draw](https://github.com/mapbox/mapbox-gl-draw) to split line
 
+> Check [mapbox-gl-draw-split-polygon-mode](https://github.com/ReyhaneMasumi/mapbox-gl-draw-split-polygon-mode) For splitting polygons.
+> Check [mapbox-gl-draw-cut-polygon-mode](https://github.com/ReyhaneMasumi/mapbox-gl-draw-cut-polygon-mode) For cut polygons.
+
 ## [DEMO](https://reyhanemasumi.github.io/mapbox-gl-draw-split-line-mode/)
+
+![A Gif showing demo usage](demo/public/demo.gif)
 
 ## Install
 
 ```bash
-npm install mapbox-gl-draw-split-line-mode
+npm install mapbox-gl-draw-split-line-mode mapbox-gl-draw-passing-mode
 ```
 
 ## Usage
@@ -20,6 +25,7 @@ npm install mapbox-gl-draw-split-line-mode
 import mapboxGl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import SplitLineMode from 'mapbox-gl-draw-split-line-mode';
+import mapboxGlDrawPassingMode from 'mapbox-gl-draw-passing-mode';
 
 const map = new mapboxgl.Map({
   container: 'map', // container id
@@ -33,12 +39,19 @@ const draw = new MapboxDraw({
   displayControlsDefault: false,
   modes: Object.assign(MapboxDraw.modes, {
     splitLineMode: SplitLineMode,
+    passing_mode_point: mapboxGlDrawPassingMode(MapboxDraw.modes.draw_point),
+    passing_mode_line_string: mapboxGlDrawPassingMode(
+      MapboxDraw.modes.draw_line_string
+    ),
+    passing_mode_polygon: mapboxGlDrawPassingMode(
+      MapboxDraw.modes.draw_polygon
+    ),
   }),
 });
 map.addControl(draw);
 
 // when mode drawing should be activated
-draw.changeMode('splitLineMode');
+draw.changeMode('splitLineMode', { spliter: mode }); //mode can be ponit,line_string or polygon
 ```
 
 ## [Example](https://github.com/ReyhaneMasumi/mapbox-gl-draw-split-line-mode/blob/main/demo/src/App.js)

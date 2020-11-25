@@ -3,6 +3,7 @@ import mapboxGl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import SplitLineMode from 'mapbox-gl-draw-split-line-mode';
+import mapboxGlDrawPassingMode from 'mapbox-gl-draw-passing-mode';
 import './App.css';
 
 let map;
@@ -95,6 +96,15 @@ function App() {
       modes: {
         ...MapboxDraw.modes,
         splitLineMode: SplitLineMode,
+        passing_mode_point: mapboxGlDrawPassingMode(
+          MapboxDraw.modes.draw_point
+        ),
+        passing_mode_line_string: mapboxGlDrawPassingMode(
+          MapboxDraw.modes.draw_line_string
+        ),
+        passing_mode_polygon: mapboxGlDrawPassingMode(
+          MapboxDraw.modes.draw_polygon
+        ),
       },
       userProperties: true,
     });
@@ -140,6 +150,7 @@ function App() {
     try {
       draw?.changeMode('splitLineMode', { spliter: mode });
     } catch (err) {
+      alert(err.message);
       console.error(err);
     }
   };
@@ -152,21 +163,21 @@ function App() {
           <button
             className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_line"
             onClick={() => {
-              splitLine('LINE_STRING');
+              splitLine('line_string');
               setIsActive(false);
             }}
           />
           <button
             className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_point"
             onClick={() => {
-              splitLine('POINT');
+              splitLine('point');
               setIsActive(false);
             }}
           />
           <button
             className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_polygon"
             onClick={() => {
-              splitLine('POLYGON');
+              splitLine('polygon');
               setIsActive(false);
             }}
           />

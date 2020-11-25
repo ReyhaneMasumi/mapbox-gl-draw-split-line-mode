@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/ReyhaneMasumi/mapbox-gl-draw-split-line-mode#readme",
   "files": [
-    "src"
+    "dist"
   ],
   "devDependencies": {
     "@rollup/plugin-commonjs": "11.0.2",
