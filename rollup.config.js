@@ -12,6 +12,7 @@ export default [
       file: pkg.main,
       format: 'cjs',
       exports: 'named',
+      name: 'SplitLineMode',
       sourcemap: process.env.NODE_ENV !== 'production',
     },
   },
