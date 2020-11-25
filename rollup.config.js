@@ -10,7 +10,7 @@ export default [
     plugins: [external(), resolve(), commonjs(), terser()],
     output: {
       file: pkg.main,
-      format: 'cjs',
+      format: 'umd',
       exports: 'named',
       name: 'SplitLineMode',
       sourcemap: process.env.NODE_ENV !== 'production',
