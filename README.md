@@ -56,7 +56,7 @@ const draw = new MapboxDraw({
 map.addControl(draw);
 
 // when mode drawing should be activated
-draw.changeMode('splitLineMode', { spliter: mode }); //mode can be ponit,line_string or polygon
+draw.changeMode('splitLineMode', { spliter: mode }); //mode can be point,line_string or polygon
 ```
 
 ## [Example](https://github.com/ReyhaneMasumi/mapbox-gl-draw-split-line-mode/blob/main/demo/src/App.js)
