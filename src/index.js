@@ -48,7 +48,7 @@ const SplitLineMode = {
   fireUpdate: function(newF) {
     this.map.fire(events.UPDATE, {
         action: 'SplitLine',
-        features: newF.toGeoJSON()
+        features: newF
     });
   }
 };
