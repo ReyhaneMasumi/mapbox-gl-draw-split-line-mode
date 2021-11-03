@@ -143,6 +143,7 @@ function App() {
           },
         ],
       });
+      map.on('draw.update', function (e) {console.log(e)})
     });
   }, []);
 
