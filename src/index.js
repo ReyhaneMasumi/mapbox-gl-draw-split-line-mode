@@ -1,4 +1,4 @@
-import { geojsonTypes, modes } from "@mapbox/mapbox-gl-draw/src/constants";
+import { geojsonTypes, modes, events, updateActions } from "@mapbox/mapbox-gl-draw/src/constants";
 import lineSplit from "@turf/line-split";
 import combine from "@turf/combine";
 import flatten from "@turf/flatten";
@@ -41,9 +41,16 @@ const SplitLineMode = {
         const afterCutMultiLineString = combine(collected).features[0];
         afterCutMultiLineString.id = mainFeature.id;
         this._ctx.api.add(afterCutMultiLineString);
+        this.fireUpdate(afterCutMultiLineString)
       });
     });
   },
+  fireUpdate: function(newF) {
+    this.map.fire(events.UPDATE, {
+        action: 'SplitLine',
+        features: newF
+    });
+  }
 };
 
 export default SplitLineMode;
