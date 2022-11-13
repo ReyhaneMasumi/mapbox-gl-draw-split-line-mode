@@ -29,14 +29,14 @@ or use CDN:
 ## Usage
 
 ```js
-import mapboxGl from 'mapbox-gl';
-import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import SplitLineMode from 'mapbox-gl-draw-split-line-mode';
-import mapboxGlDrawPassingMode from 'mapbox-gl-draw-passing-mode';
+import mapboxGl from "mapbox-gl";
+import MapboxDraw from "@mapbox/mapbox-gl-draw";
+import SplitLineMode from "mapbox-gl-draw-split-line-mode";
+import mapboxGlDrawPassingMode from "mapbox-gl-draw-passing-mode";
 
 const map = new mapboxgl.Map({
-  container: 'map', // container id
-  style: 'mapbox://styles/mapbox/streets-v11',
+  container: "map", // container id
+  style: "mapbox://styles/mapbox/streets-v11",
   center: [-91.874, 42.76], // starting position
   zoom: 12, // starting zoom
 });
@@ -58,7 +58,7 @@ const draw = new MapboxDraw({
 map.addControl(draw);
 
 // when mode drawing should be activated
-draw.changeMode('splitLineMode', { spliter: mode }); //mode can be point,line_string or polygon
+draw.changeMode("splitLineMode", { splitter: mode }); //mode can be point,line_string or polygon
 ```
 
 ## [Example](https://github.com/ReyhaneMasumi/mapbox-gl-draw-split-line-mode/blob/main/demo/src/App.js)
