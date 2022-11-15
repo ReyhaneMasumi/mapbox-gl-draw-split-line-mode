@@ -1,4 +1,7 @@
-import { highlightPropertyName as _highlightPropertyName } from "./constants";
+import {
+  modeName,
+  highlightPropertyName as _highlightPropertyName,
+} from "./constants";
 
 const highlightPropertyName = `user_${_highlightPropertyName}`;
 
@@ -17,7 +20,45 @@ const customDrawStyles = (defaultStyle) =>
     })
     .concat([
       {
-        id: "splitpolygon-fill-active",
+        id: `${modeName}-line-inactive`,
+        type: "line",
+        filter: [
+          "all",
+          ["==", "active", "false"],
+          ["==", "$type", "LineString"],
+          ["!=", "mode", "static"],
+          ["has", highlightPropertyName],
+        ],
+        layout: {
+          "line-cap": "round",
+          "line-join": "round",
+        },
+        paint: {
+          "line-color": ["get", highlightPropertyName],
+          "line-width": 2,
+        },
+      },
+      {
+        id: `${modeName}-line-active`,
+        type: "line",
+        filter: [
+          "all",
+          ["==", "$type", "LineString"],
+          ["==", "active", "true"],
+          ["has", highlightPropertyName],
+        ],
+        layout: {
+          "line-cap": "round",
+          "line-join": "round",
+        },
+        paint: {
+          "line-color": ["get", highlightPropertyName],
+          "line-dasharray": [0.2, 2],
+          "line-width": 2,
+        },
+      },
+      {
+        id: `${modeName}-fill-active`,
         type: "fill",
         filter: [
           "all",
@@ -32,7 +73,7 @@ const customDrawStyles = (defaultStyle) =>
         },
       },
       {
-        id: "splitpolygon-stroke-active",
+        id: `${modeName}-stroke-active`,
         type: "line",
         filter: [
           "all",

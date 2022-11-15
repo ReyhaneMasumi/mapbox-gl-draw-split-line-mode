@@ -15,9 +15,15 @@
       <div id="map"></div>
 
       <div class="mapboxgl-ctrl-group mapboxgl-ctrl split-options">
-        <button class="mapbox-gl-draw_ctrl-draw-btn splitter-point" />
-        <button class="mapbox-gl-draw_ctrl-draw-btn splitter-line" />
-        <button class="mapbox-gl-draw_ctrl-draw-btn splitter-polygon" />
+        <button
+          class="mapbox-gl-draw_point mapbox-gl-draw_ctrl-draw-btn splitter-point"
+        />
+        <button
+          class="mapbox-gl-draw_line mapbox-gl-draw_ctrl-draw-btn splitter-line_string"
+        />
+        <button
+          class="mapbox-gl-draw_polygon mapbox-gl-draw_ctrl-draw-btn splitter-polygon"
+        />
       </div>
     </div>
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>

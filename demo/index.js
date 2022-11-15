@@ -1,4 +1,6 @@
-import SplitPolygonMode, { drawStyles as splitPolygonDrawStyles } from "..";
+import SplitLineStringMode, {
+  drawStyles as splitLineStringDrawStyles,
+} from "..";
 import defaultDrawStyle from "https://unpkg.com/@mapbox/mapbox-gl-draw@1.3.0/src/lib/theme.js";
 
 import "./index.css";
@@ -8,19 +10,18 @@ let draw;
 let drawBar;
 const splitOptionsEl = document.querySelector(".split-options");
 
-const splitLine = (splitter) => {
-  console.log("🚀 ~ file: index.js ~ line 12 ~ splitLine ~ splitter", splitter);
+const splitLine = (splitTool) => {
   try {
-    draw?.changeMode("splitLineMode", { splitter });
+    draw?.changeMode("split_line_string", { splitTool });
   } catch (err) {
     alert(err.message);
     console.error(err);
   }
 };
 
-["point", "line", "polygon"].forEach((f) => {
+["point", "line_string", "polygon"].forEach((f) => {
   const splitterEl = splitOptionsEl.querySelector(`.splitter-${f}`);
-  splitterEl.onclick = splitLine(f);
+  splitterEl.onclick = splitLine.bind(null, f);
 });
 
 const toggleMenu = () => {
@@ -108,9 +109,9 @@ map = new mapboxgl.Map({
 
 draw = new MapboxDraw({
   modes: {
-    ...SplitPolygonMode(MapboxDraw.modes),
+    ...SplitLineStringMode(MapboxDraw.modes),
   },
-  styles: [...splitPolygonDrawStyles(defaultDrawStyle)],
+  styles: [...splitLineStringDrawStyles(defaultDrawStyle)],
   userProperties: true,
 });
 

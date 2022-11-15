@@ -5,46 +5,87 @@ import combine from "@turf/combine";
 import flatten from "@turf/flatten";
 import { featureCollection } from "@turf/helpers";
 
+import { modeName, highlightPropertyName, defaultOptions } from "./constants";
+
 const SplitLineMode = {
-  onSetup: function ({ splitter }) {
-    let main = this.getSelected().map((f) => f.toGeoJSON());
+  onSetup: function (opt) {
+    const { splitTool, highlightColor, lineWidth, lineWidthUnit } = opt || {};
+
+    const main = this.getSelected()
+      .filter(
+        (f) =>
+          f.type === geojsonTypes.LINE_STRING ||
+          f.type === geojsonTypes.MULTI_LINE_STRING
+      )
+      .map((f) => f.toGeoJSON());
+
+    console.log("🚀 ~ file: mode.js ~ line 15 ~ main", main);
 
     if (main.length < 1)
       throw new Error("Please select a Linestring/MultiLinestring!");
 
+    const api = this._ctx.api;
+
     /// `onSetup` job should complete for this mode to work.
     /// so `setTimeout` is used to bupass mode change after `onSetup` is done executing.
     setTimeout(() => {
-      const passingModeName = `${modeName}_passing_draw_${splitter}`;
-      this.changeMode(`passing_mode_${splitter}`, (cut) => {
-        main.forEach((mainFeature) => {
+      const passingModeName = `${modeName}_passing_draw_${splitTool}`;
+      this.changeMode(passingModeName, {
+        onDraw: (cuttingLineString) => {
           const splitedFeatures = [];
-          flatten(mainFeature).features.forEach((feature) => {
-            if (
-              feature.geometry.type === geojsonTypes.LINE_STRING ||
-              feature.geometry.type === geojsonTypes.MULTI_LINE_STRING
-            ) {
-              const afterCut = lineSplit(feature, cut);
-              if (afterCut.features.length < 1)
-                splitedFeatures.push(featureCollection([feature]));
-              else splitedFeatures.push(afterCut);
-            } else {
-              throw new Error("The feature is not Linestring/MultiLinestring!");
-            }
+          main.forEach((mainFeature) => {
+            flatten(mainFeature).features.forEach((feature) => {
+              if (
+                feature.geometry.type === geojsonTypes.LINE_STRING ||
+                feature.geometry.type === geojsonTypes.MULTI_LINE_STRING
+              ) {
+                const afterCut = lineSplit(feature, cuttingLineString);
+                if (afterCut.features.length < 1)
+                  splitedFeatures.push(featureCollection([feature]));
+                else splitedFeatures.push(afterCut);
+              } else {
+                throw new Error(
+                  "The feature is not Linestring/MultiLinestring!"
+                );
+              }
+            });
+
+            const collected = featureCollection(
+              splitedFeatures.flatMap((featureColl) => featureColl.features)
+            );
+            const afterCutMultiLineString = combine(collected).features[0];
+            afterCutMultiLineString.id = mainFeature.id;
+            api.add(afterCutMultiLineString);
           });
 
-          const collected = featureCollection(
-            splitedFeatures.flatMap((featureColl) => featureColl.features)
-          );
-          const afterCutMultiLineString = combine(collected).features[0];
-          afterCutMultiLineString.id = mainFeature.id;
-          this._ctx.api.add(afterCutMultiLineString);
-          this.fireUpdate(afterCutMultiLineString);
-        });
+          this.fireUpdate(splitedFeatures);
+
+          if (main?.[0]?.id)
+            api.setFeatureProperty(
+              main[0].id,
+              highlightPropertyName,
+              undefined
+            );
+        },
+        onCancel: () => {
+          if (main?.[0]?.id)
+            api.setFeatureProperty(
+              main[0].id,
+              highlightPropertyName,
+              undefined
+            );
+        },
       });
     }, 0);
 
-    return state;
+    if (main?.[0]?.id)
+      api.setFeatureProperty(
+        main[0].id,
+        highlightPropertyName,
+        highlightColor || defaultOptions.highlightColor
+      );
+
+    return { main };
   },
 
   toDisplayFeatures: function (state, geojson, display) {
