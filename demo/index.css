@@ -35,11 +35,14 @@ p {
   background-size: 60%;
 }
 
-.split {
-  display: flex;
-  flex-direction: row;
+.split-options {
   height: auto;
   position: fixed;
   top: 12rem;
   right: 3rem;
+  display: none;
+}
+
+.split-options.active {
+  display: block;
 }

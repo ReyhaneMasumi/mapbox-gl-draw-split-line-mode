@@ -28,6 +28,7 @@ const toggleMenu = () => {
   const isActive = splitOptionsEl.classList.contains("active");
 
   if (isActive) {
+    splitOptionsEl.classList.remove("active");
   } else {
     splitOptionsEl.classList.add("active");
   }
@@ -156,5 +157,10 @@ map.once("load", () => {
 
   map.on("draw.update", function (e) {
     console.log("🚀 ~ file: index.js ~ line 158 ~ e", e);
+  });
+
+  map.on("draw.modechange", function (e) {
+    const { mode } = e;
+    if (mode !== "split_line_string") toggleMenu();
   });
 });

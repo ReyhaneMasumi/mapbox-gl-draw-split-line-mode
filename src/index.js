@@ -7,7 +7,7 @@ import {
   passing_draw_polygon,
 } from "mapbox-gl-draw-passing-mode";
 
-import { modeName } from "./constants";
+import { modeName, passingModeName } from "./constants";
 
 export { splitLineStringMode };
 export { drawStyles };
@@ -15,9 +15,9 @@ export { drawStyles };
 export default function SplitLineStringMode(modes) {
   return {
     ...modes,
-    [`${modeName}_passing_draw_point`]: passing_draw_point,
-    [`${modeName}_passing_draw_line_string`]: passing_draw_line_string,
-    [`${modeName}_passing_draw_polygon`]: passing_draw_polygon,
+    [passingModeName.point]: passing_draw_point,
+    [passingModeName.line_string]: passing_draw_line_string,
+    [passingModeName.polygon]: passing_draw_polygon,
     [modeName]: splitLineStringMode,
   };
 }

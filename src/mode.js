@@ -5,7 +5,11 @@ import combine from "@turf/combine";
 import flatten from "@turf/flatten";
 import { featureCollection } from "@turf/helpers";
 
-import { modeName, highlightPropertyName, defaultOptions } from "./constants";
+import {
+  passingModeName,
+  highlightPropertyName,
+  defaultOptions,
+} from "./constants";
 
 const SplitLineMode = {
   onSetup: function (opt) {
@@ -19,8 +23,6 @@ const SplitLineMode = {
       )
       .map((f) => f.toGeoJSON());
 
-    console.log("🚀 ~ file: mode.js ~ line 15 ~ main", main);
-
     if (main.length < 1)
       throw new Error("Please select a Linestring/MultiLinestring!");
 
@@ -29,8 +31,7 @@ const SplitLineMode = {
     /// `onSetup` job should complete for this mode to work.
     /// so `setTimeout` is used to bupass mode change after `onSetup` is done executing.
     setTimeout(() => {
-      const passingModeName = `${modeName}_passing_draw_${splitTool}`;
-      this.changeMode(passingModeName, {
+      this.changeMode(passingModeName[splitTool], {
         onDraw: (cuttingLineString) => {
           const splitedFeatures = [];
           main.forEach((mainFeature) => {
